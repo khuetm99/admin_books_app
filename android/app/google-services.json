@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "343452837606",
+    "firebase_url": "https://flutter-books-selling-app.firebaseio.com",
+    "project_id": "flutter-books-selling-app",
+    "storage_bucket": "flutter-books-selling-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343452837606:android:7ae323d519fdf125cc3d27",
+        "android_client_info": {
+          "package_name": "com.example.admin_books_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343452837606-q9e76v5p6n5je3pqqkj7ek9ldbdiablb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin_books_app",
+            "certificate_hash": "a36afac858734598d5b3b143b4ce678f8facc388"
+          }
+        },
+        {
+          "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hM751eWx2FQeyqXb8xlFtoFV3aJJOiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343452837606:android:2e5dc6b0872330ebcc3d27",
+        "android_client_info": {
+          "package_name": "com.example.flutteradminapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hM751eWx2FQeyqXb8xlFtoFV3aJJOiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343452837606:android:95a8b848be3c384fcc3d27",
+        "android_client_info": {
+          "package_name": "com.example.flutterbooksellingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343452837606-f97bov141v0jonon7t8olfgdk8di858b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterbooksellingapp",
+            "certificate_hash": "a36afac858734598d5b3b143b4ce678f8facc388"
+          }
+        },
+        {
+          "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hM751eWx2FQeyqXb8xlFtoFV3aJJOiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343452837606-5q7u5spp1rg4ej871m9jhfqhf1uijoo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
