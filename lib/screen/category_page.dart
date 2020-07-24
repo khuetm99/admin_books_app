@@ -4,11 +4,12 @@ import 'package:admin_books_app/provider/app.dart';
 import 'package:admin_books_app/provider/category.dart';
 import 'package:admin_books_app/widget/CustomShapeClipper.dart';
 import 'package:admin_books_app/widget/loading.dart';
-import 'package:admin_books_app/widget/shimmer_category_list.dart';
+import 'package:admin_books_app/widget/shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'category_search.dart';
 
@@ -126,9 +127,19 @@ class _CategoryPageState extends State<CategoryPage> {
                                                 bottomLeft: Radius.circular(20),
                                                 topLeft: Radius.circular(20),
                                               ),
-                                              child: Image.network(
-                                                categoryProvider.categories[index].image,
-                                                fit: BoxFit.cover,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Positioned.fill(child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Loading(),
+                                                  )),
+                                                  Image.network(
+                                                    categoryProvider.categories[index].image,
+                                                    width: 130,
+                                                    height: 130,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),

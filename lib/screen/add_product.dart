@@ -139,7 +139,7 @@ class _AddProductState extends State<AddProduct> {
               Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Text(
                       'Category: ',
                       style: TextStyle(color: Colors.black54),
@@ -155,7 +155,7 @@ class _AddProductState extends State<AddProduct> {
               Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Text(
                       'NXB: ',
                       style: TextStyle(color: Colors.black54),
@@ -248,8 +248,19 @@ class _AddProductState extends State<AddProduct> {
               Container(
                 height: 50,
                 width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xffff5f6d),
+                      Color(0xffff5f6d),
+                      Color(0xffffc371),
+                    ],
+                  ),
+                ),
                 child: FlatButton(
-                  color: red,
                   textColor: white,
                   child: Text('Add product'),
                   onPressed: () async{

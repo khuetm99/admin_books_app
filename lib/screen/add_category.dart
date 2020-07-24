@@ -81,37 +81,50 @@ class _AddCategoryState extends State<AddCategory> {
                 },
               ),
             ),
-            FlatButton(
-              color: red,
-              textColor: white,
-              child: Text('add category'),
-              onPressed: () async{
-                if (_formKey.currentState.validate()) {
-                  if (_imageFile != null) {
-                    setState(() {
-                      app.isLoading = true;
-                    });
-                  String imageUrl;
-                  final FirebaseStorage storage = FirebaseStorage.instance;
-                  final String picture = "${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
-                  StorageUploadTask task = await storage.ref().child(picture).putFile(_imageFile);
-                  StorageTaskSnapshot snapshot = await task.onComplete.then((snapshot) => snapshot);
-                  imageUrl = await snapshot.ref.getDownloadURL();
-                  _categoryServices.createCategory(name : categoryController.text, image: imageUrl);
-                  _formKey.currentState.reset();
-                    setState(() {
-                      app.isLoading = false;
-                    });
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xffff5f6d),
+                    Color(0xffff5f6d),
+                    Color(0xffffc371),
+                  ],
+                ),
+              ),
+              child: FlatButton(
+                textColor: white,
+                child: Text('Add category'),
+                onPressed: () async{
+                  if (_formKey.currentState.validate()) {
+                    if (_imageFile != null) {
+                      setState(() {
+                        app.isLoading = true;
+                      });
+                    String imageUrl;
+                    final FirebaseStorage storage = FirebaseStorage.instance;
+                    final String picture = "${DateTime.now().millisecondsSinceEpoch.toString()}.jpg";
+                    StorageUploadTask task = await storage.ref().child(picture).putFile(_imageFile);
+                    StorageTaskSnapshot snapshot = await task.onComplete.then((snapshot) => snapshot);
+                    imageUrl = await snapshot.ref.getDownloadURL();
+                    _categoryServices.createCategory(name : categoryController.text, image: imageUrl);
+                    _formKey.currentState.reset();
+                      setState(() {
+                        app.isLoading = false;
+                      });
 
-                  Fluttertoast.showToast(msg: 'Category added');
-                  } else {
-                    setState(() {
-                      app.isLoading = false;
-                    });
-                    Fluttertoast.showToast(msg: 'the images must be provided');
+                    Fluttertoast.showToast(msg: 'Category added');
+                    } else {
+                      setState(() {
+                        app.isLoading = false;
+                      });
+                      Fluttertoast.showToast(msg: 'the images must be provided');
+                    }
                   }
-                }
-              },
+                },
+              ),
             )
           ]),
         ),

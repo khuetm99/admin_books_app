@@ -70,3 +70,44 @@ class ShimmerLayout extends StatelessWidget {
     );
   }
 }
+
+class ShimmerProductImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 7.5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: 140,
+            height: 170,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ShimmerCategoryImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 7.5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: 130,
+            height: 130,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+  }
+}
+

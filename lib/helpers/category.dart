@@ -32,7 +32,6 @@ class CategoryServices{
   }
 
 
-
   Future<List<Category>> getCategories() async =>
       _firestore.collection(collection).getDocuments().then((result) {
         List<Category> categories = [];

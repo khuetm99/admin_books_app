@@ -264,8 +264,8 @@ class _EditProductPageState extends State<EditProductPage> {
                                   old_price :  productOldPriceController.text,
                                   price : int.parse(productPriceController.text));
                               if (value) {
-                                categoryProvider.loadCategories();
-                                Fluttertoast.showToast(msg: 'Category added');
+                                productProvider.loadProducts();
+                                Fluttertoast.showToast(msg: 'Product edited');
                                 app.changeLoading();
                                 Navigator.pop(context);
                                 return;

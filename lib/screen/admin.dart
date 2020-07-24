@@ -1,13 +1,19 @@
 import 'package:admin_books_app/helpers/nxb.dart';
 import 'package:admin_books_app/helpers/category.dart';
+import 'package:admin_books_app/helpers/order.dart';
+import 'package:admin_books_app/helpers/screen_navigation.dart';
 import 'package:admin_books_app/provider/category.dart';
 import 'package:admin_books_app/provider/nxb.dart';
+import 'package:admin_books_app/provider/order.dart';
 import 'package:admin_books_app/provider/product.dart';
+import 'package:admin_books_app/provider/user.dart';
 import 'package:admin_books_app/screen/add_category.dart';
+import 'package:admin_books_app/screen/add_product.dart';
 import 'package:admin_books_app/screen/category_page.dart';
 import 'package:admin_books_app/screen/nxb_page.dart';
+import 'package:admin_books_app/screen/order_page.dart';
 import 'package:admin_books_app/screen/product_page.dart';
-import 'file:///D:/flutter_admin_app/admin_books_app/lib/screen/add_product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +25,14 @@ class Admin extends StatefulWidget {
   _AdminState createState() => _AdminState();
 }
 
+
 class _AdminState extends State<Admin> {
   Page _selectedPage = Page.dashboard;
   MaterialColor active = Colors.red;
   MaterialColor notActive = Colors.grey;
+  int total = 0;
+
+
 
 //  =================================TEXT EDITING===============================
   TextEditingController categoryController = TextEditingController();
@@ -36,6 +46,14 @@ class _AdminState extends State<Admin> {
 //  ====================================SERVICE================================
   CategoryServices _categoryService = CategoryServices();
   NXBServices _nxbService = NXBServices();
+  OrderServices _orderServices = OrderServices();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    queryValues();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,24 +96,23 @@ class _AdminState extends State<Admin> {
   Widget _loadScreen() {
     final categoryProvider = Provider.of<CategoryProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
+    final orderProvider = Provider.of<OrderProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final nxbProvider = Provider.of<NXBProvider>(context);
     categoryProvider.loadCategories();
     productProvider.loadProducts();
+    orderProvider.loadOrder();
+    userProvider.loadUser();
+    nxbProvider.loadNXB();
     switch (_selectedPage) {
       case Page.dashboard:
         return Column(
           children: <Widget>[
             ListTile(
-              subtitle: FlatButton.icon(
-                onPressed: null,
-                icon: Icon(
-                  Icons.attach_money,
-                  size: 30.0,
-                  color: Colors.green,
-                ),
-                label: Text('12,000',
+              subtitle: Text(
+                  total.toString().replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' vnđ',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30.0, color: Colors.green)),
-              ),
+                    style: TextStyle(fontSize: 30.0, color: Colors.green, fontWeight: FontWeight.w500)),
               title: Text(
                 'Revenue',
                 textAlign: TextAlign.center,
@@ -116,70 +133,82 @@ class _AdminState extends State<Admin> {
                               icon: Icon(Icons.people_outline),
                               label: Text("Users")),
                           subtitle: Text(
-                            '7',
+                            userProvider.userList.length.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: active, fontSize: 60.0),
                           )),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.category),
-                              label: Text("Categories")),
-                          subtitle: Text(
-                            categoryProvider.categories.length.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
+                  GestureDetector(
+                    onTap: () {changeScreen(context, CategoryPage());},
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Card(
+                        child: ListTile(
+                            title: FlatButton.icon(
+                                onPressed: null,
+                                icon: Icon(Icons.category),
+                                label: Text("Categories")),
+                            subtitle: Text(
+                              categoryProvider.categories.length.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: active, fontSize: 60.0),
+                            )),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.track_changes),
-                              label: Text("Products")),
-                          subtitle: Text(
-                            productProvider.products.length.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
+                  GestureDetector(
+                    onTap: () {changeScreen(context, ProductPage());},
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Card(
+                        child: ListTile(
+                            title: FlatButton.icon(
+                                onPressed: null,
+                                icon: Icon(Icons.track_changes),
+                                label: Text("Products")),
+                            subtitle: Text(
+                              productProvider.products.length.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: active, fontSize: 60.0),
+                            )),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.tag_faces),
-                              label: Text("Sold")),
-                          subtitle: Text(
-                            '13',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
+                  GestureDetector(
+                    onTap: () {changeScreen(context, NXBPage());},
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Card(
+                        child: ListTile(
+                            title: FlatButton.icon(
+                                onPressed: null,
+                                icon: Icon(Icons.tag_faces),
+                                label: Text("NXB")),
+                            subtitle: Text(
+                              nxbProvider.nxbList.length.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: active, fontSize: 60.0),
+                            )),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.shopping_cart),
-                              label: Text("Orders")),
-                          subtitle: Text(
-                            '5',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
+                  GestureDetector(
+                    onTap: () {changeScreen(context, OrderPage());},
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Card(
+                        child: ListTile(
+                            title: FlatButton.icon(
+                                onPressed: null,
+                                icon: Icon(Icons.shopping_cart),
+                                label: Text("Orders")),
+                            subtitle: Text(
+                              orderProvider.orderList.length.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: active, fontSize: 60.0),
+                            )),
+                      ),
                     ),
                   ),
                   Padding(
@@ -268,82 +297,19 @@ class _AdminState extends State<Admin> {
     }
   }
 
-  Widget _categoryAlert() {
-    var alert = new AlertDialog(
-      content: Form(
-        key: _categoryFormKey,
-        child: Container(
-          height: 250,
-          width: 300,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: categoryController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'category cannot be empty';
-                  }
-                },
-                decoration: InputDecoration(
-                  labelText: 'name',
-                  hintText: "add name category",
-                ),
-              ),
-              TextFormField(
-                controller: categoryImageController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'category image cannot be empty';
-                  }
-                },
-                decoration: InputDecoration(
-                    labelText: 'image', hintText: "add image category"),
-              ),
-              SizedBox(
-                height: 45,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  SizedBox(
-                      width: 100.0,
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (categoryController.text != null) {
-                            print(categoryController.text);
-                            _categoryService.createCategory(
-                                name : categoryController.text,
-                               image : categoryImageController.text);
-                            Fluttertoast.showToast(msg: 'category created');
-                          }
-                        },
-                        child: Text(
-                          "Add",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: const Color(0xFF1BC0C5),
-                      )),
-                  SizedBox(
-                      width: 100.0,
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.red,
-                      ))
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-    showDialog(context: context, builder: (_) => alert);
+
+
+  void queryValues() {
+    Firestore.instance
+        .collection('orders')
+        .snapshots()
+        .listen((snapshot) {
+      int tempTotal = snapshot.documents.fold(0, (tot, doc) => tot + doc.data['total']);
+      setState(() {total = tempTotal;});
+//      debugPrint(total.toString());
+    });
   }
+
 
   void _NXBAlert() {
     var alert = new AlertDialog(

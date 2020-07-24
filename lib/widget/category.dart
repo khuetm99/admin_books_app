@@ -2,7 +2,6 @@ import 'package:admin_books_app/models/category.dart';
 import 'package:admin_books_app/provider/app.dart';
 import 'package:admin_books_app/provider/category.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 

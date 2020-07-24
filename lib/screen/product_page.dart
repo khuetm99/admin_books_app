@@ -8,9 +8,11 @@ import 'package:admin_books_app/screen/edit_product_page.dart';
 import 'package:admin_books_app/screen/product_search.dart';
 import 'package:admin_books_app/widget/CustomShapeClipper.dart';
 import 'package:admin_books_app/widget/loading.dart';
+import 'package:admin_books_app/widget/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductPage extends StatefulWidget {
   @override
@@ -146,19 +148,34 @@ class _ProductPageState extends State<ProductPage> {
                                           blurRadius: 5),
                                     ]),
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: <Widget>[
                                           Container(
                                           width: 150,
-                                          height: 150,
+                                          height: 180,
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(20),
                                               topLeft: Radius.circular(20),
                                             ),
-                                            child: Image.network(
-                                              productProvider.products[index].image,
-                                              fit: BoxFit.cover,
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Positioned.fill(child: Align(
+                                                  alignment: Alignment.center,
+                                                  child:  Shimmer.fromColors(
+                                                    highlightColor: Colors.white,
+                                                    baseColor: Colors.grey[300],
+                                                    child: ShimmerProductImage(),
+                                                    period: Duration(milliseconds: 800),
+                                                  ),
+                                                )),
+                                                Image.network(
+                                                  productProvider.products[index].image,
+                                                  width: 150,
+                                                  height: 180,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -205,8 +222,8 @@ class _ProductPageState extends State<ProductPage> {
                                                   child :Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: <Widget>[
-                                                      Text('Giá : ' + productProvider.products[index].price.toString() + 'vnđ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-                                                      Text(productProvider.products[index].old_price + 'vnđ', style: TextStyle(fontSize: 14 , decoration: TextDecoration.lineThrough)),
+                                                      Text('Giá : ' + productProvider.products[index].price.toString().replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + 'vnđ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                                                      Text(productProvider.products[index].old_price.replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + 'vnđ', style: TextStyle(fontSize: 14 , decoration: TextDecoration.lineThrough)),
                                                     ],
                                                   ),),
                                                   Row(
@@ -265,7 +282,7 @@ class _ProductPageState extends State<ProductPage> {
                                                       MainAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          'Bạn có muốn xóa danh mục không ?',
+                                                          'Bạn có muốn xóa sản phẩm không ?',
                                                           style: TextStyle(fontSize: 16),
                                                           textAlign: TextAlign.center,
                                                         ),
@@ -280,8 +297,7 @@ class _ProductPageState extends State<ProductPage> {
                                                               bool value = await productProvider.deleteProduct( productId: productProvider.products[index].id,
                                                                   imageUrl: productImageController.value.text);
                                                               if (value) {
-                                                                categoryProvider
-                                                                    .loadCategories();
+                                                                productProvider.loadProducts();
                                                                 _key.currentState
                                                                     .showSnackBar(
                                                                     SnackBar(
