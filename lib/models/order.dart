@@ -18,7 +18,6 @@ class OrderModel{
 
   // public variable
   List cart;
-
   int totalOrderPrice;
 
 

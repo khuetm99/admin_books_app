@@ -8,6 +8,7 @@ class UserModel{
   static const STRIPE_ID = "stripeId";
   static const CART = "cart";
   static const FAVORITE = "favorite";
+  static const ADMIN = "admin";
 
   String _name;
   String _email;
@@ -16,12 +17,14 @@ class UserModel{
   int _priceSum = 0;
   int _quantitySum = 0;
 
+  bool _admin;
 
 //  getters
   String get name => _name;
   String get email => _email;
   String get id => _id;
   String get stripeId => _stripeId;
+  bool get admin => _admin;
 
 //  public variable
   List cart;
@@ -32,6 +35,7 @@ class UserModel{
     _name = snapshot.data[NAME];
     _email = snapshot.data[EMAIL];
     _id = snapshot.data[ID];
+    _admin = snapshot.data[ADMIN];
     _stripeId = snapshot.data[STRIPE_ID];
     cart = snapshot.data[CART] ?? [];
     favorite = snapshot.data[FAVORITE] ?? [];

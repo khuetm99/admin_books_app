@@ -154,10 +154,10 @@ class _ProductPageState extends State<ProductPage> {
                                           width: 150,
                                           height: 180,
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
-                                            ),
+//                                            borderRadius: BorderRadius.only(
+//                                              bottomLeft: Radius.circular(20),
+//                                              topLeft: Radius.circular(20),
+//                                            ),
                                             child: Stack(
                                               children: <Widget>[
                                                 Positioned.fill(child: Align(

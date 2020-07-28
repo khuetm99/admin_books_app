@@ -342,4 +342,5 @@ class _AddProductState extends State<AddProduct> {
     setState(() => _currentNXB = selectedNXB);
   }
 
+
 }

@@ -3,9 +3,11 @@ import 'package:admin_books_app/provider/category.dart';
 import 'package:admin_books_app/provider/nxb.dart';
 import 'package:admin_books_app/provider/product.dart';
 import 'package:admin_books_app/screen/edit_product_page.dart';
+import 'package:admin_books_app/widget/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductSearchScreen extends StatefulWidget {
   @override
@@ -75,19 +77,34 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                               blurRadius: 5),
                         ]),
                         child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 width: 150,
-                                height: 150,
+                                height: 180,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     topLeft: Radius.circular(20),
                                   ),
-                                  child: Image.network(
-                                    productProvider.productsSearched[index].image,
-                                    fit: BoxFit.cover,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Positioned.fill(child: Align(
+                                        alignment: Alignment.center,
+                                        child:  Shimmer.fromColors(
+                                          highlightColor: Colors.white,
+                                          baseColor: Colors.grey[300],
+                                          child: ShimmerProductImage(),
+                                          period: Duration(milliseconds: 800),
+                                        ),
+                                      )),
+                                      Image.network(
+                                        productProvider.productsSearched[index].image,
+                                        width: 150,
+                                        height: 180,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -209,8 +226,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                                 bool value = await productProvider.deleteProduct( productId: productProvider.productsSearched[index].id,
                                                     imageUrl: productImageController.value.text);
                                                 if (value) {
-                                                  categoryProvider
-                                                      .loadCategories();
+                                                  productProvider.loadProducts();
                                                   _key.currentState
                                                       .showSnackBar(
                                                       SnackBar(

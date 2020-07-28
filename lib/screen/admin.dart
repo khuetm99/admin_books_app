@@ -13,6 +13,7 @@ import 'package:admin_books_app/screen/category_page.dart';
 import 'package:admin_books_app/screen/nxb_page.dart';
 import 'package:admin_books_app/screen/order_page.dart';
 import 'package:admin_books_app/screen/product_page.dart';
+import 'package:admin_books_app/screen/user_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -124,19 +125,22 @@ class _AdminState extends State<Admin> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.people_outline),
-                              label: Text("Users")),
-                          subtitle: Text(
-                            userProvider.userList.length.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
+                  GestureDetector(
+                    onTap: () {changeScreen(context, UserPage());},
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Card(
+                        child: ListTile(
+                            title: FlatButton.icon(
+                                onPressed: null,
+                                icon: Icon(Icons.people_outline),
+                                label: Text("Users")),
+                            subtitle: Text(
+                              userProvider.userList.length.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: active, fontSize: 60.0),
+                            )),
+                      ),
                     ),
                   ),
                   GestureDetector(

@@ -14,4 +14,12 @@ class UserServices {
         return users;
       });
 
+  void deleteUser({String uid}){
+    _firestore.collection(collection).document(uid).delete();
+  }
+
+  void updateUser({String uid, String name, String email}){
+    _firestore.collection(collection).document(uid).updateData({ 'name': name, 'email': email});
+  }
+
 }
