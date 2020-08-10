@@ -114,7 +114,7 @@ class _AddCategoryState extends State<AddCategory> {
                       setState(() {
                         app.isLoading = false;
                       });
-
+                      categoryController.clear();
                     Fluttertoast.showToast(msg: 'Category added');
                     } else {
                       setState(() {

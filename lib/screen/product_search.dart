@@ -60,7 +60,8 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           itemCount: productProvider.productsSearched.length,
           itemBuilder: (BuildContext context, int index) {
             TextEditingController productImageController  =TextEditingController( text:  productProvider.productsSearched[index].image);
-
+            TextEditingController productNameController  =TextEditingController( text:  productProvider.productsSearched[index].name);
+            
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
               actionExtentRatio: 0.25,
@@ -227,6 +228,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                                     imageUrl: productImageController.value.text);
                                                 if (value) {
                                                   productProvider.loadProducts();
+                                                  productProvider.search(productName: productNameController.text.substring(0,1));
                                                   _key.currentState
                                                       .showSnackBar(
                                                       SnackBar(

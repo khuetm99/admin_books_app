@@ -132,6 +132,7 @@ class _ProductPageState extends State<ProductPage> {
                         itemBuilder: (BuildContext context, int index) {
                           TextEditingController productImageController  =TextEditingController( text:  productProvider.products[index].image);
 
+
                           return Slidable(
                               actionPane: SlidableDrawerActionPane(),
                               actionExtentRatio: 0.25,

@@ -18,7 +18,7 @@ class OrderModel{
 
   // public variable
   List cart;
-  int totalOrderPrice;
+
 
 
   OrderModel.fromSnapshot(DocumentSnapshot snapshot){

@@ -10,6 +10,7 @@ import 'package:admin_books_app/provider/user.dart';
 import 'package:admin_books_app/screen/add_category.dart';
 import 'package:admin_books_app/screen/add_product.dart';
 import 'package:admin_books_app/screen/category_page.dart';
+import 'package:admin_books_app/screen/chart_page.dart';
 import 'package:admin_books_app/screen/nxb_page.dart';
 import 'package:admin_books_app/screen/order_page.dart';
 import 'package:admin_books_app/screen/product_page.dart';
@@ -109,15 +110,20 @@ class _AdminState extends State<Admin> {
       case Page.dashboard:
         return Column(
           children: <Widget>[
-            ListTile(
-              subtitle: Text(
-                  total.toString().replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' vnđ',
+            GestureDetector(
+              onTap: () {
+                changeScreen(context, ChartPage());
+              },
+              child : ListTile(
+                subtitle: Text(
+                    total.toString().replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' vnđ',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 30.0, color: Colors.green, fontWeight: FontWeight.w500)),
-              title: Text(
-                'Revenue',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.0, color: Colors.grey),
+                title: Text(
+                  'Revenue',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 24.0, color: Colors.grey),
+                ),
               ),
             ),
             Expanded(

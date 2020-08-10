@@ -195,6 +195,7 @@ class _CategoriesSearchScreenState extends State<CategoriesSearchScreen> {
                                                     image: categoryImageController.value.text);
                                                 if (value) {
                                                   categoryProvider.loadCategories();
+                                                  categoryProvider.search(name :categoryController.value.text.substring(0,1));
                                                   _key.currentState
                                                       .showSnackBar(
                                                       SnackBar(
@@ -280,6 +281,7 @@ class _CategoriesSearchScreenState extends State<CategoriesSearchScreen> {
                                                     imageUrl: categoryImageController.value.text);
                                                 if (value) {
                                                   categoryProvider.loadCategories();
+                                                  categoryProvider.search(name :categoryController.value.text.substring(0,1));
                                                   _key.currentState
                                                       .showSnackBar(
                                                       SnackBar(

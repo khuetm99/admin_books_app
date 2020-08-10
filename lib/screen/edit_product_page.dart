@@ -265,6 +265,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                   price : int.parse(productPriceController.text));
                               if (value) {
                                 productProvider.loadProducts();
+                                productProvider.search(productName :productNameController.value.text.substring(0,1));
                                 Fluttertoast.showToast(msg: 'Product edited');
                                 app.changeLoading();
                                 Navigator.pop(context);

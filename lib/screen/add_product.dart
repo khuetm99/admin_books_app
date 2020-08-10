@@ -4,6 +4,7 @@ import 'package:admin_books_app/helpers/style.dart';
 import 'package:admin_books_app/provider/app.dart';
 import 'package:admin_books_app/provider/category.dart';
 import 'package:admin_books_app/provider/nxb.dart';
+import 'package:admin_books_app/widget/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -85,7 +86,9 @@ class _AddProductState extends State<AddProduct> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          child: Column(
+            child:app.isLoading
+                ? Loading()
+                :  Column(
             children: <Widget>[
 //===========================================IMAGE================================================
               Row(children: <Widget>[
@@ -292,6 +295,12 @@ class _AddProductState extends State<AddProduct> {
                        setState(() {
                          app.isLoading = false;
                        });
+                       productNameController.clear();
+                       productAuthorController.clear();
+                       productOldPriceController.clear();
+                       productRatingController.clear();
+                       productDescriptionController.clear();
+                       productPriceController.clear();
                     Fluttertoast.showToast(msg: 'product created');
                     }else {
                        setState(() {

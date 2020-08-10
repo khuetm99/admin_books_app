@@ -8,9 +8,10 @@ class OrderProvider with ChangeNotifier {
   OrderServices _orderServices = OrderServices();
   List<OrderModel> orderList = [];
   OrderModel _orderModel;
-  int total;
+  int _totalSales = 0;
 
   OrderModel get orderModel => _orderModel ;
+  int get totalSales => _totalSales;
 
   OrderProvider.initialize() {
     loadOrder();
@@ -18,6 +19,14 @@ class OrderProvider with ChangeNotifier {
 
   loadOrder() async {
     orderList = await _orderServices.getOrders();
+    notifyListeners();
+  }
+
+  getTotalSales() async {
+    for (OrderModel order in orderList) {
+          _totalSales = _totalSales + order.total;
+    }
+    _totalSales = _totalSales ;
     notifyListeners();
   }
 
